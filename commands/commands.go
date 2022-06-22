@@ -2,27 +2,26 @@ package commands
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/SergeyOcheretenko/Architecture-4/eventloop"
 )
 
-type printCmd struct {
-	text string
+type PrintCmd string
+
+func (cmd PrintCmd) Execute(h eventloop.Handler) {
+	fmt.Println(string(cmd))
 }
 
-func (cmd *printCmd) Execute(h eventloop.Handler) {
-	fmt.Println(cmd.text)
+type PrintcCmd struct {
+	Count  int
+	Symbol string
 }
 
-type printcCmd struct {
-	count  int
-	symbol rune
-}
-
-func (cmd *printcCmd) Execute(h eventloop.Handler) {
-	slice := []rune{}
-	for i := 0; i < cmd.count; i++ {
-		slice[i] = (cmd.symbol)
+func (cmd *PrintcCmd) Execute(h eventloop.Handler) {
+	slice := []string{}
+	for i := 0; i < cmd.Count; i++ {
+		slice = append(slice, cmd.Symbol)
 	}
-	h.Post(&printCmd{text: string(slice)})
+	h.Post(PrintCmd(strings.Join(slice, "")))
 }
