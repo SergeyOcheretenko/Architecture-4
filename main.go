@@ -1,9 +1,14 @@
 package main
 
 import (
-  "fmt"
+	"github.com/SergeyOcheretenko/Architecture-4/eventloop"
 )
 
 func main() {
-  fmt.Println("Program started");
+	eLoop := new(eventloop.EventLoop)
+	eLoop.Start()
+	eLoop.Post(commands.printCmd{"Hello"})
+	eLoop.Post(commands.printCmd{"World"})
+	eLoop.Post(commands.printCmd{"!"})
+	eLoop.AwaitFinish()
 }
