@@ -7,10 +7,12 @@ import (
 	"github.com/SergeyOcheretenko/Architecture-4/eventloop"
 )
 
-type PrintCmd string
+type PrintCmd struct {
+	Text string
+}
 
 func (cmd PrintCmd) Execute(h eventloop.Handler) {
-	fmt.Println(string(cmd))
+	fmt.Println(cmd.Text)
 }
 
 type PrintcCmd struct {
@@ -18,10 +20,10 @@ type PrintcCmd struct {
 	Symbol string
 }
 
-func (cmd *PrintcCmd) Execute(h eventloop.Handler) {
+func (cmd PrintcCmd) Execute(h eventloop.Handler) {
 	slice := []string{}
 	for i := 0; i < cmd.Count; i++ {
 		slice = append(slice, cmd.Symbol)
 	}
-	h.Post(PrintCmd(strings.Join(slice, "")))
+	h.Post(PrintCmd{Text: strings.Join(slice, "")})
 }
