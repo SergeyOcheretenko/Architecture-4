@@ -1,12 +1,11 @@
 package main
 
 import (
+	"bufio"
+	"os"
 	"strconv"
 	"strings"
 
-	// "fmt"
-	// "bufio"
-	// "os"
 	"github.com/SergeyOcheretenko/Architecture-4/commands"
 	"github.com/SergeyOcheretenko/Architecture-4/eventloop"
 )
@@ -31,12 +30,15 @@ func main() {
 
 	eLoop := new(eventloop.EventLoop)
 	eLoop.Start()
-
-	eLoop.Post(parse("printc 5 j"))
-	eLoop.Post(parse("printc 10 ?*"))
-	eLoop.Post(parse("print Hello"))
-	eLoop.Post(parse("print World"))
-	eLoop.Post(parse("print !!!"))
-	eLoop.Post(parse("printc 3 World"))
+	filePath := "test.txt"
+	if input, err := os.Open(filePath); err == nil {
+		defer input.Close()
+		scanner := bufio.NewScanner(input)
+		for scanner.Scan() {
+			commandLine := scanner.Text()
+			cmd := parse(commandLine)
+			eLoop.Post(cmd)
+		}
+	}
 	eLoop.AwaitFinish()
 }

@@ -1,0 +1,13 @@
+print hello
+print
+print test_string
+print newLine
+printc
+
+printc 5 
+printc m
+-
+printc 4 h
+printc 5 hello
+printc 10 ?*
+printc 7 5
